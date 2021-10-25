@@ -18,7 +18,8 @@ class Employee(db.Model):
     start_date = db.Column(db.Date, nullable=False)
     end_date = db.Column(db.Date)
 
-    company = db.relationship('Company', backref=db.backref('employees', lazy=True))
+    # company = db.relationship('Company', foreign_keys = company_id )
+    # role = db.relationship("Role", foreign_keys = role_id)
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
