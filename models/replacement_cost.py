@@ -17,4 +17,6 @@ class ReplacementCost(db.Model):
     company_id = db.Column(UUID(as_uuid=True), db.ForeignKey('company.id'), nullable=False)
     start_date = db.Column(db.Date, nullable=False)
     end_date = db.Column(db.Date, nullable=False)
+
+    company = db.relationship('Company', foreign_keys = company_id )
     

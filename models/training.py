@@ -11,3 +11,5 @@ class Training(db.Model):
     experienced_employees_assigned = db.Column(db.Float, nullable=False)
     company_id = db.Column(UUID(as_uuid=True), db.ForeignKey('company.id'), nullable=False)
     date = db.Column(db.Date, nullable=False)
+    
+    company = db.relationship('Company', foreign_keys = company_id )

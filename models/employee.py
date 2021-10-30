@@ -1,6 +1,6 @@
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
-from models import db
+from models import db, role
 from werkzeug.security import generate_password_hash, check_password_hash
 
 class Employee(db.Model):
@@ -18,8 +18,8 @@ class Employee(db.Model):
     start_date = db.Column(db.Date, nullable=False)
     end_date = db.Column(db.Date)
 
-    # company = db.relationship('Company', foreign_keys = company_id )
-    # role = db.relationship("Role", foreign_keys = role_id)
+    company = db.relationship('Company', foreign_keys = company_id )
+    role = db.relationship("Role", foreign_keys = role_id)
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)

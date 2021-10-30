@@ -10,3 +10,5 @@ class Meeting(db.Model):
     date = db.Column(db.Date, nullable=False)
     meeting_notes = db.Column(db.String(1000))
     is_interview = db.Column(db.Boolean, default=False)
+    
+    employee = db.relationship("Employee", foreign_keys=employee_id)

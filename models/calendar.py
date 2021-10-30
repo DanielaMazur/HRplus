@@ -7,3 +7,5 @@ class Calendar(db.Model):
     employee_id = db.Column(UUID(as_uuid=True), db.ForeignKey('employee.id'), nullable=False)
     date = db.Column(db.Date, nullable=False)
     worked_hours = db.Column(db.Float, nullable=False)
+
+    employee = db.relationship("Employee", foreign_keys=employee_id)
