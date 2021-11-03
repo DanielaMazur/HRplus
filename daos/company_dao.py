@@ -4,7 +4,10 @@ from models import db
 class CompanyDAO(object):
     def get(self, id):
         return Company.query.get(id)
-        
+
+    def getAll(self):
+        return Company.query.all()
+
     def create(self, company):
         newCompany = Company(
             name = company['name']
