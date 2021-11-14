@@ -3,6 +3,7 @@ from .employee import api as employeeNamespace
 from .company import api as companyNamespace
 from .role import api as roleNamespace
 from .calendar import api as calendarNamespace
+from .meeting import api as meetingNamespace
 
 api = Api(
     version='1.0',
@@ -14,3 +15,4 @@ api.add_namespace(employeeNamespace)
 api.add_namespace(companyNamespace)
 api.add_namespace(roleNamespace)
 api.add_namespace(calendarNamespace)
+api.add_namespace(meetingNamespace)
