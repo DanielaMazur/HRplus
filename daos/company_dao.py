@@ -16,10 +16,10 @@ class CompanyDAO(object):
         db.session.commit()
         return newCompany
 
-    # def update(self, id, data):
-    #     todo = self.get(id)
-    #     todo.update(data)
-    #     return todo
+    def update(self, id, data):
+        db.session.query(Company).filter(Company.id == id).update(data)
+        db.session.commit()
+        return self.get(id)
 
     def delete(self, id):
         Company.query.filter_by(id = id).delete()

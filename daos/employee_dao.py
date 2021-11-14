@@ -14,12 +14,11 @@ class EmployeeDAO(object):
             first_name = employee['first_name'],
             last_name = employee['last_name'],
             wage = float(employee['wage']),
-            company_id = employee['company_id'],
             email = employee['email'],
             work_hours = float(employee['work_hours']),            
-            managed_by_id = employee['managed_by_id'],
+            managed_by_id = employee['managed_by_id'] if "managed_by_id" in employee else None,
             role_id = employee['role_id'],
-            replacement_for_id = employee['replacement_for_id'],
+            replacement_for_id = employee['replacement_for_id'] if "replacement_for_id" in employee else None,
             start_date = datetime.strptime(employee['start_date'], '%Y-%m-%d')
         )
         newEmployee.set_password("test_password")
@@ -27,10 +26,10 @@ class EmployeeDAO(object):
         db.session.commit()
         return newEmployee
 
-    # def update(self, id, data):
-    #     todo = self.get(id)
-    #     todo.update(data)
-    #     return todo
+    def update(self, id, data):
+        db.session.query(Employee).filter(Employee.id == id).update(data)
+        db.session.commit()
+        return self.get(id)
 
     def delete(self, id):
         Employee.query.filter_by(id = id).delete()

@@ -17,11 +17,6 @@ class RoleDAO(object):
         db.session.commit()
         return newRole
 
-    # def update(self, id, data):
-    #     todo = self.get(id)
-    #     todo.update(data)
-    #     return todo
-
     def delete(self, id):
         Role.query.filter_by(id = id).delete()
         db.session.commit()
