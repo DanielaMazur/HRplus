@@ -10,11 +10,11 @@ class TrainingDAO(object):
 
     def create(self, training):
         newTraining = Training(
-            informational_package_cost = training['informational_package_cost'],
-            training_program_length = training['training_program_length'],
-            avg_trainers_pay_rate = training['avg_trainers_pay_rate'],
-            instruction_hours = training['instruction_hours'],
-            experienced_employees_assigned = training['experienced_employees_assigned'],
+            informational_package_cost = float(training['informational_package_cost']),
+            training_program_length = float(training['training_program_length']),
+            avg_trainers_pay_rate = float(training['avg_trainers_pay_rate']),
+            instruction_hours = float(training['instruction_hours']),
+            experienced_employees_assigned = float(training['experienced_employees_assigned']),
             company_id = training['company_id'],
             date = training['date']
         )

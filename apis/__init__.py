@@ -6,6 +6,7 @@ from .calendar import api as calendarNamespace
 from .meeting import api as meetingNamespace
 from .replacement_cost import api as replacementCostNamespace
 from .training import api as trainingNamespace
+from .turnover import api as turnoverNamespace
 
 api = Api(
     version='1.0',
@@ -20,3 +21,4 @@ api.add_namespace(calendarNamespace)
 api.add_namespace(meetingNamespace)
 api.add_namespace(replacementCostNamespace)
 api.add_namespace(trainingNamespace)
+api.add_namespace(turnoverNamespace)
