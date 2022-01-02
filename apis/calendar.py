@@ -1,7 +1,9 @@
 from flask_restx import Namespace, Resource, fields
-from daos.calendar_dao import CalendarDAO
+from flask_cors import cross_origin
 
+from daos.calendar_dao import CalendarDAO
 from models.calendar import Calendar as CalendarModel
+from auth.decorators import requires_auth
 
 api = Namespace('calendars', description='Calendars related operations')
 
@@ -32,11 +34,15 @@ class CalendarList(Resource):
     @api.doc('create_calendar')
     @api.expect(createCalendar)
     @api.marshal_with(calendar, code=201)
+    @cross_origin(headers=["Content-Type", "Authorization"])
+    @requires_auth
     def post(self):
         return calendarDAO.create(api.payload)
 
     @api.doc('get_calendars')
     @api.marshal_with(calendar, True)
+    @cross_origin(headers=["Content-Type", "Authorization"])
+    @requires_auth
     def get(self):
         return calendarDAO.getAll()
 
@@ -45,9 +51,13 @@ class Calendar(Resource):
     @api.doc('update_calendar')
     @api.expect(updateCalendar)
     @api.marshal_with(calendar, code=200)
+    @cross_origin(headers=["Content-Type", "Authorization"])
+    @requires_auth
     def put(self, id):
         return calendarDAO.update(id, api.payload)
 
     @api.doc('delete_calendar')
+    @cross_origin(headers=["Content-Type", "Authorization"])
+    @requires_auth
     def delete(self, id):
         return calendarDAO.delete(id)

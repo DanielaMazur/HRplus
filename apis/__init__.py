@@ -8,10 +8,20 @@ from .replacement_cost import api as replacementCostNamespace
 from .training import api as trainingNamespace
 from .turnover import api as turnoverNamespace
 
+authorizations = {
+    'Bearer Auth': {
+        'type': 'apiKey',
+        'in': 'header',
+        'name': 'Authorization'
+    },
+}
+
 api = Api(
     version='1.0',
     title='HRplus',
-    description='HRplus API'
+    description='HRplus API',
+    security='Bearer Auth', 
+    authorizations=authorizations,
 )
 
 api.add_namespace(employeeNamespace)

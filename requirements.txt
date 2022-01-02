@@ -24,3 +24,8 @@ six==1.16.0
 SQLAlchemy==1.4.25
 Werkzeug==2.0.2
 gunicorn==19.9.0
+python-dotenv
+python-jose
+flask-cors
+six
+jose

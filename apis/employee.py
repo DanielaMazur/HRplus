@@ -1,7 +1,9 @@
 from flask_restx import Namespace, Resource, fields
-from daos.employee_dao import EmployeeDAO
+from flask_cors import cross_origin
 
+from daos.employee_dao import EmployeeDAO
 from models.employee import Employee as EmployeeModel
+from auth.decorators import requires_auth
 
 api = Namespace('employees', description='Employees related operations')
 
@@ -50,11 +52,15 @@ class EmployeeList(Resource):
     @api.doc('create_employee')
     @api.expect(createEmployee)
     @api.marshal_with(employee, code=201)
+    @cross_origin(headers=["Content-Type", "Authorization"])
+    @requires_auth
     def post(self):
         return employeeDAO.create(api.payload)
 
     @api.doc('get_employees')
     @api.marshal_with(employee, True)
+    @cross_origin(headers=["Content-Type", "Authorization"])
+    @requires_auth
     def get(self):
         return employeeDAO.getAll()
     
@@ -63,6 +69,8 @@ class Employee(Resource):
     @api.doc('get_employee')
     @api.response(404, 'Employee not found')
     @api.marshal_with(employee)
+    @cross_origin(headers=["Content-Type", "Authorization"])
+    @requires_auth
     def get(self, id):
         return employeeDAO.get(id)
 
@@ -70,9 +78,13 @@ class Employee(Resource):
     @api.response(404, 'Employee not found')
     @api.expect(editEmployee)
     @api.marshal_with(employee)
+    @cross_origin(headers=["Content-Type", "Authorization"])
+    @requires_auth
     def put(self, id):
         return employeeDAO.update(id, api.payload)
 
     @api.doc('delete_employee')
+    @cross_origin(headers=["Content-Type", "Authorization"])
+    @requires_auth
     def delete(self, id):
         return employeeDAO.delete(id)

@@ -1,7 +1,9 @@
 from flask_restx import Namespace, Resource, fields
-from daos.training_dao import TrainingDAO
+from flask_cors import cross_origin
 
+from daos.training_dao import TrainingDAO
 from models.training import Training as TrainingModel
+from auth.decorators import requires_auth
 
 api = Namespace('trainings', description='Trainings related operations')
 
@@ -46,11 +48,15 @@ class TrainingList(Resource):
     @api.doc('create_training')
     @api.expect(createTraining)
     @api.marshal_with(training, code=201)
+    @cross_origin(headers=["Content-Type", "Authorization"])
+    @requires_auth
     def post(self):
         return trainingDAO.create(api.payload)
 
     @api.doc('get_trainings')
     @api.marshal_with(training, True)
+    @cross_origin(headers=["Content-Type", "Authorization"])
+    @requires_auth
     def get(self):
         return trainingDAO.getAll()
 
@@ -59,9 +65,13 @@ class Training(Resource):
     @api.doc('update_training')
     @api.expect(updateTraining)
     @api.marshal_with(training, code=200)
+    @cross_origin(headers=["Content-Type", "Authorization"])
+    @requires_auth
     def put(self, id):
         return trainingDAO.update(id, api.payload)
 
     @api.doc('delete_training')
+    @cross_origin(headers=["Content-Type", "Authorization"])
+    @requires_auth
     def delete(self, id):
         return trainingDAO.delete(id)

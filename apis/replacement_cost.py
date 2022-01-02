@@ -1,7 +1,9 @@
 from flask_restx import Namespace, Resource, fields
-from daos.replacement_cost_dao import ReplacementCostDAO
+from flask_cors import cross_origin
 
+from daos.replacement_cost_dao import ReplacementCostDAO
 from models.replacement_cost import ReplacementCost as ReplacementCostModel
+from auth.decorators import requires_auth
 
 api = Namespace('replacement_costs', description='ReplacementCosts related operations')
 
@@ -62,11 +64,15 @@ class ReplacementCostList(Resource):
     @api.doc('create_replacement_cost')
     @api.expect(createReplacementCost)
     @api.marshal_with(replacement_cost, code=201)
+    @cross_origin(headers=["Content-Type", "Authorization"])
+    @requires_auth
     def post(self):
         return replacement_costDAO.create(api.payload)
 
     @api.doc('get_replacement_costs')
     @api.marshal_with(replacement_cost, True)
+    @cross_origin(headers=["Content-Type", "Authorization"])
+    @requires_auth
     def get(self):
         return replacement_costDAO.getAll()
 
@@ -75,9 +81,13 @@ class ReplacementCost(Resource):
     @api.doc('update_replacement_cost')
     @api.expect(updateReplacementCost)
     @api.marshal_with(replacement_cost, code=200)
+    @cross_origin(headers=["Content-Type", "Authorization"])
+    @requires_auth
     def put(self, id):
         return replacement_costDAO.update(id, api.payload)
 
     @api.doc('delete_replacement_cost')
+    @cross_origin(headers=["Content-Type", "Authorization"])
+    @requires_auth
     def delete(self, id):
         return replacement_costDAO.delete(id)
