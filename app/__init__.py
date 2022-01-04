@@ -4,8 +4,7 @@ from models import db, company, calendar, employee, meeting, replacement_cost, r
 from apis import api
 from flask import jsonify
 from auth.decorators import AuthError
-
-
+from flask_cors import CORS
 
 def create_app():
     """Initialize the core application."""
@@ -13,6 +12,8 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:test@db/hrplus'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
     app.config['PROPAGATE_EXCEPTIONS']=True
+    
+    CORS(app)
 
     api.init_app(app)
     db.init_app(app)
