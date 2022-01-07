@@ -53,15 +53,15 @@ class EmployeeList(Resource):
     @api.doc('create_employee')
     @api.expect(createEmployee)
     @api.marshal_with(employee, code=201)
-    @cross_origin(headers=["Content-Type", "Authorization"])
-    @requires_auth
+    # @cross_origin(headers=["Content-Type", "Authorization"])
+    # @requires_auth
     def post(self):
         return employeeDAO.create(api.payload)
 
     @api.doc('get_employees')
     @api.marshal_with(employee, True)
-    @cross_origin(headers=["Content-Type", "Authorization"])
-    @requires_auth
+    # @cross_origin(headers=["Content-Type", "Authorization"])
+    # @requires_auth
     def get(self):
         return employeeDAO.getAll()
     
@@ -79,14 +79,14 @@ class Employee(Resource):
     @api.response(404, 'Employee not found')
     @api.expect(editEmployee)
     @api.marshal_with(employee)
-    @cross_origin(headers=["Content-Type", "Authorization"])
-    @requires_auth
+    # @cross_origin(headers=["Content-Type", "Authorization"])
+    # @requires_auth
     def put(self, id):
         return employeeDAO.update(id, api.payload)
 
     @api.doc('delete_employee')
-    @cross_origin(headers=["Content-Type", "Authorization"])
-    @requires_auth
+    # @cross_origin(headers=["Content-Type", "Authorization"])
+    # @requires_auth
     def delete(self, id):
         return employeeDAO.delete(id)
 
