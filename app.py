@@ -17,6 +17,7 @@ if __name__ == "__main__":
     with app.app_context():
         migrate = Migrate(app, db)
         migrate.init_app(app)
+        db.create_all()
 
 # source venv/Scripts/activate
 # python app.py
