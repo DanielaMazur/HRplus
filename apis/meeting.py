@@ -12,7 +12,6 @@ createMeeting = api.model('create meeting', {
     'employee_id': fields.String(required=True),
     "duration": fields.String(required=True),
     "date": fields.Date(required=True),
-    "worked_hours": fields.String(required=True),
     "meeting_notes": fields.String(required=False),
     "is_interview": fields.Boolean(required=False)
 })
@@ -22,7 +21,6 @@ updateMeeting = api.model('create meeting', {
     'employee_id': fields.String(),
     "duration": fields.String(),
     "date": fields.Date(),
-    "worked_hours": fields.String(),
     "meeting_notes": fields.String(),
     "is_interview": fields.Boolean()  
 })
@@ -33,7 +31,6 @@ meeting = api.model('meeting', {
     'employee_id': fields.String(required=True),
     "duration": fields.String(required=True),
     "date": fields.Date(required=True),
-    "worked_hours": fields.String(required=True),
     "meeting_notes": fields.String(required=False),
     "is_interview": fields.Boolean(required=False)    
 })

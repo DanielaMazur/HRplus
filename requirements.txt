@@ -29,3 +29,4 @@ python-jose
 flask-cors
 six
 jose
+gunicorn

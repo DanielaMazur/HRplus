@@ -1,6 +1,7 @@
 from flask_restx import Namespace, Resource, fields
 from flask_cors import cross_origin
-
+from flask import jsonify
+ 
 from daos.employee_dao import EmployeeDAO
 from models.employee import Employee as EmployeeModel
 from auth.decorators import requires_auth
@@ -69,8 +70,8 @@ class Employee(Resource):
     @api.doc('get_employee')
     @api.response(404, 'Employee not found')
     @api.marshal_with(employee)
-    @cross_origin(headers=["Content-Type", "Authorization"])
-    @requires_auth
+    # @cross_origin(headers=["Content-Type", "Authorization"])
+    # @requires_auth
     def get(self, id):
         return employeeDAO.get(id)
 
@@ -88,3 +89,13 @@ class Employee(Resource):
     @requires_auth
     def delete(self, id):
         return employeeDAO.delete(id)
+
+@api.route('/by-email/<string:email>')
+class Employee(Resource):
+    @api.doc('get_employee')
+    @api.response(404, 'Employee not found')
+    @api.marshal_with(employee)
+    # @cross_origin(headers=["Content-Type", "Authorization"])
+    # @requires_auth
+    def get(self, email):
+        return employeeDAO.getByEmail(email)
