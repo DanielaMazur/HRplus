@@ -23,7 +23,7 @@ class EmployeeDAO(object):
                 email = employee['email'],
                 work_hours = float(employee['work_hours']) if "work_hours" in employee else 0,            
                 managed_by_id = employee['managed_by_id'] if "managed_by_id" in employee else None,
-                role_id = employee['role_id'],
+                role = employee['role'],
                 replacement_for_id = employee['replacement_for_id'] if "replacement_for_id" in employee else None,
                 start_date = datetime.strptime(employee['start_date'], '%Y-%m-%d') if "start_date" in employee else datetime.now()
             )

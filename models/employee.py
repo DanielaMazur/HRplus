@@ -10,14 +10,12 @@ class Employee(db.Model):
     email = db.Column(db.String(120), nullable=False, unique=True)
     work_hours = db.Column(db.Float, default=8)
     managed_by_id = db.Column(UUID(as_uuid=True), db.ForeignKey('employee.id'), nullable=True)
-    role_id = db.Column(UUID(as_uuid=True), db.ForeignKey('role.id'), nullable=False)
+    role = db.Column(db.String(120), nullable=False)
     replacement_for_id = db.Column(UUID(as_uuid=True), db.ForeignKey('employee.id'))
     start_date = db.Column(db.Date, nullable=False)
     end_date = db.Column(db.Date)
     profile_id = db.Column(db.String(100))
-
-    role = db.relationship("Role", foreign_keys = role_id)
-
+    company_id = db.Column(UUID(as_uuid=True), db.ForeignKey('company.id'))
  
     
  

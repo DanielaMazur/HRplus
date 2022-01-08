@@ -15,7 +15,7 @@ createEmployee = api.model('create employee', {
     'email': fields.String(required=True),
     'work_hours': fields.String(required=True),
     'managed_by_id': fields.String(required=False),
-    'role_id': fields.String(required=True),
+    'role': fields.String(required=True),
     'replacement_for_id': fields.String(required=False),
     'start_date': fields.Date(required=True), 
     'profile_id':fields.String()
@@ -28,7 +28,7 @@ editEmployee =  api.model('create employee', {
     'email': fields.String(),
     'work_hours': fields.String(),
     'managed_by_id': fields.String(),
-    'role_id': fields.String(),
+    'role': fields.String(),
     'replacement_for_id': fields.String(),
     'start_date': fields.Date(),
     'profile_id':fields.String()
@@ -42,7 +42,7 @@ employee = api.model('employee', {
     'email': fields.String(required=True),
     'work_hours': fields.String(required=True),
     'managed_by_id': fields.String(required=True),
-    'role_id': fields.String(required=True),
+    'role': fields.String(required=True),
     'replacement_for_id': fields.String(required=False),
     'start_date': fields.Date(required=True),
     'profile_id':fields.String()

@@ -5,7 +5,6 @@ from models.employee import Employee
 from daos.company_dao import CompanyDAO
 from auth.decorators import requires_auth
 from daos.employee_dao import EmployeeDAO
-from daos.role_dao import RoleDAO
 
 api = Namespace('companies', description='Company related operations')
 
@@ -21,7 +20,6 @@ company = api.model("company", {
 
 companyDAO = CompanyDAO()
 employeeDAO = EmployeeDAO()
-roleDAO = RoleDAO()
 
 @api.route('/')
 class CompanyList(Resource):
@@ -32,9 +30,7 @@ class CompanyList(Resource):
     # @requires_auth
     def post(self):
         company = companyDAO.create(api.payload)
-        role = {"name": "HR", "company_id": company.id}
-        role = roleDAO.create(role)
-        employee = {"email": api.payload["email"], "role_id": role.id }
+        employee = {"email": api.payload["email"], "role": "admin" }
         employeeDAO.create(employee)
         return company
         

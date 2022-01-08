@@ -1,7 +1,7 @@
 from flask import Flask, jsonify
 from flask_migrate import Migrate
-from models import db, company, calendar, employee, meeting, replacement_cost, role, training, turnover
-from apis import api, company, employee, role
+from models import db, company, calendar, employee, meeting, replacement_cost, training, turnover
+from apis import api, company, employee
 from flask_cors import CORS
 from AppError import AppError
  

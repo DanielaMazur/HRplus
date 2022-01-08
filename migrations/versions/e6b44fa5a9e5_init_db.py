@@ -1,8 +1,8 @@
-"""empty message
+"""Init db
 
-Revision ID: 327ce73a778f
+Revision ID: e6b44fa5a9e5
 Revises: 
-Create Date: 2021-10-30 12:07:55.547193
+Create Date: 2022-01-08 14:59:35.379875
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
-revision = '327ce73a778f'
+revision = 'e6b44fa5a9e5'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -21,7 +21,28 @@ def upgrade():
     op.create_table('company',
     sa.Column('id', postgresql.UUID(as_uuid=True), nullable=False),
     sa.Column('name', sa.String(length=200), nullable=False),
-    sa.PrimaryKeyConstraint('id')
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('name')
+    )
+    op.create_table('employee',
+    sa.Column('id', postgresql.UUID(as_uuid=True), nullable=False),
+    sa.Column('first_name', sa.String(length=50), nullable=False),
+    sa.Column('last_name', sa.String(length=50), nullable=False),
+    sa.Column('wage', sa.Float(), nullable=False),
+    sa.Column('email', sa.String(length=120), nullable=False),
+    sa.Column('work_hours', sa.Float(), nullable=True),
+    sa.Column('managed_by_id', postgresql.UUID(as_uuid=True), nullable=True),
+    sa.Column('role', sa.String(length=120), nullable=False),
+    sa.Column('replacement_for_id', postgresql.UUID(as_uuid=True), nullable=True),
+    sa.Column('start_date', sa.Date(), nullable=False),
+    sa.Column('end_date', sa.Date(), nullable=True),
+    sa.Column('profile_id', sa.String(length=100), nullable=True),
+    sa.Column('company_id', postgresql.UUID(as_uuid=True), nullable=True),
+    sa.ForeignKeyConstraint(['company_id'], ['company.id'], ),
+    sa.ForeignKeyConstraint(['managed_by_id'], ['employee.id'], ),
+    sa.ForeignKeyConstraint(['replacement_for_id'], ['employee.id'], ),
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('email')
     )
     op.create_table('replacement_cost',
     sa.Column('id', postgresql.UUID(as_uuid=True), nullable=False),
@@ -41,13 +62,6 @@ def upgrade():
     sa.ForeignKeyConstraint(['company_id'], ['company.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_table('role',
-    sa.Column('id', postgresql.UUID(as_uuid=True), nullable=False),
-    sa.Column('name', sa.String(length=50), nullable=False),
-    sa.Column('company_id', postgresql.UUID(as_uuid=True), nullable=False),
-    sa.ForeignKeyConstraint(['company_id'], ['company.id'], ),
-    sa.PrimaryKeyConstraint('id')
-    )
     op.create_table('training',
     sa.Column('id', postgresql.UUID(as_uuid=True), nullable=False),
     sa.Column('informational_package_cost', sa.Float(), nullable=False),
@@ -59,27 +73,6 @@ def upgrade():
     sa.Column('date', sa.Date(), nullable=False),
     sa.ForeignKeyConstraint(['company_id'], ['company.id'], ),
     sa.PrimaryKeyConstraint('id')
-    )
-    op.create_table('employee',
-    sa.Column('id', postgresql.UUID(as_uuid=True), nullable=False),
-    sa.Column('first_name', sa.String(length=50), nullable=False),
-    sa.Column('last_name', sa.String(length=50), nullable=False),
-    sa.Column('wage', sa.Float(), nullable=False),
-    sa.Column('company_id', postgresql.UUID(as_uuid=True), nullable=False),
-    sa.Column('email', sa.String(length=120), nullable=False),
-    sa.Column('password_hash', sa.String(length=128), nullable=False),
-    sa.Column('work_hours', sa.Float(), nullable=True),
-    sa.Column('managed_by_id', postgresql.UUID(as_uuid=True), nullable=False),
-    sa.Column('role_id', postgresql.UUID(as_uuid=True), nullable=False),
-    sa.Column('replacement_for_id', postgresql.UUID(as_uuid=True), nullable=True),
-    sa.Column('start_date', sa.Date(), nullable=False),
-    sa.Column('end_date', sa.Date(), nullable=True),
-    sa.ForeignKeyConstraint(['company_id'], ['company.id'], ),
-    sa.ForeignKeyConstraint(['managed_by_id'], ['employee.id'], ),
-    sa.ForeignKeyConstraint(['replacement_for_id'], ['employee.id'], ),
-    sa.ForeignKeyConstraint(['role_id'], ['role.id'], ),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('email')
     )
     op.create_table('calendar',
     sa.Column('id', postgresql.UUID(as_uuid=True), nullable=False),
@@ -118,9 +111,8 @@ def downgrade():
     op.drop_table('turnover')
     op.drop_table('meeting')
     op.drop_table('calendar')
-    op.drop_table('employee')
     op.drop_table('training')
-    op.drop_table('role')
     op.drop_table('replacement_cost')
+    op.drop_table('employee')
     op.drop_table('company')
     # ### end Alembic commands ###
