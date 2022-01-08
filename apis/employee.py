@@ -17,7 +17,8 @@ createEmployee = api.model('create employee', {
     'managed_by_id': fields.String(required=False),
     'role_id': fields.String(required=True),
     'replacement_for_id': fields.String(required=False),
-    'start_date': fields.Date(required=True)
+    'start_date': fields.Date(required=True), 
+    'profile_id':fields.String()
 })
 
 editEmployee =  api.model('create employee', {
@@ -29,7 +30,8 @@ editEmployee =  api.model('create employee', {
     'managed_by_id': fields.String(),
     'role_id': fields.String(),
     'replacement_for_id': fields.String(),
-    'start_date': fields.Date()
+    'start_date': fields.Date(),
+    'profile_id':fields.String()
 })
 
 employee = api.model('employee', {
@@ -42,7 +44,8 @@ employee = api.model('employee', {
     'managed_by_id': fields.String(required=True),
     'role_id': fields.String(required=True),
     'replacement_for_id': fields.String(required=False),
-    'start_date': fields.Date(required=True)
+    'start_date': fields.Date(required=True),
+    'profile_id':fields.String()
 })
 
 employeeDAO = EmployeeDAO()
