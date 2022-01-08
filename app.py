@@ -3,7 +3,7 @@ from flask_migrate import Migrate
 from models import db, company, calendar, employee, meeting, replacement_cost, role, training, turnover
 from apis import api, company, employee, role
 from flask_cors import CORS
-import AppError
+from AppError import AppError
  
 """Initialize the core application."""
 app = Flask(__name__)
@@ -22,12 +22,13 @@ def handle_app_error(ex):
     response.status_code = ex.status_code
     return response
 
+
+
 if __name__ == "__main__":
     app.run()
-    with app.app_context():
-        migrate = Migrate(app, db)
-        migrate.init_app(app)
-        db.create_all()
-
+    
+with app.app_context():
+    migrate = Migrate(app, db)
+    migrate.init_app(app)
 # source venv/Scripts/activate
 # python app.py

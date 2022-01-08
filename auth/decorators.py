@@ -1,7 +1,7 @@
 import json
 from six.moves.urllib.request import urlopen
 from functools import wraps
-import AppError
+from AppError import AppError
 
 from flask import request, _request_ctx_stack
 from jose import jwt

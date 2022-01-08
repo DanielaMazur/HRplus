@@ -2,7 +2,7 @@ from models.employee import Employee
 from models import db
 from datetime import datetime
 from sqlalchemy.exc import IntegrityError
-import AppError
+from AppError import AppError
 
 class EmployeeDAO(object):
     def get(self, id):
