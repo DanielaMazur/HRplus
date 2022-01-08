@@ -22,7 +22,7 @@ class EmployeeDAO(object):
             managed_by_id = employee['managed_by_id'] if "managed_by_id" in employee else None,
             role_id = employee['role_id'],
             replacement_for_id = employee['replacement_for_id'] if "replacement_for_id" in employee else None,
-            start_date = datetime.strptime(employee['start_date'], '%Y-%m-%d')
+            start_date = datetime.strptime(employee['start_date'], '%Y-%m-%d') if "start_date" in employee else datetime.now()
         )
         db.session.add(newEmployee)
         db.session.commit()
