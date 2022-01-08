@@ -34,7 +34,7 @@ class CompanyList(Resource):
         company = companyDAO.create(api.payload)
         role = {"name": "HR", "company_id": company.id}
         role = roleDAO.create(role)
-        employee = {"email": api.payload["email"], "role": role.id }
+        employee = {"email": api.payload["email"], "role_id": role.id }
         employeeDAO.create(employee)
         return company
         
