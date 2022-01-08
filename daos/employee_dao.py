@@ -1,6 +1,8 @@
 from models.employee import Employee
 from models import db
 from datetime import datetime
+from sqlalchemy.exc import IntegrityError
+import AppError
 
 class EmployeeDAO(object):
     def get(self, id):
@@ -13,20 +15,26 @@ class EmployeeDAO(object):
         return Employee.query.all()
         
     def create(self, employee):
-        newEmployee = Employee(
-            first_name = employee['first_name'] if "first_name" in employee else "",
-            last_name = employee['last_name'] if "last_name" in employee else "",
-            wage = float(employee['wage']) if "wage" in employee else 0,
-            email = employee['email'],
-            work_hours = float(employee['work_hours']) if "work_hours" in employee else 0,            
-            managed_by_id = employee['managed_by_id'] if "managed_by_id" in employee else None,
-            role_id = employee['role_id'],
-            replacement_for_id = employee['replacement_for_id'] if "replacement_for_id" in employee else None,
-            start_date = datetime.strptime(employee['start_date'], '%Y-%m-%d') if "start_date" in employee else datetime.now()
-        )
-        db.session.add(newEmployee)
-        db.session.commit()
-        return newEmployee
+        try:
+            newEmployee = Employee(
+                first_name = employee['first_name'] if "first_name" in employee else "",
+                last_name = employee['last_name'] if "last_name" in employee else "",
+                wage = float(employee['wage']) if "wage" in employee else 0,
+                email = employee['email'],
+                work_hours = float(employee['work_hours']) if "work_hours" in employee else 0,            
+                managed_by_id = employee['managed_by_id'] if "managed_by_id" in employee else None,
+                role_id = employee['role_id'],
+                replacement_for_id = employee['replacement_for_id'] if "replacement_for_id" in employee else None,
+                start_date = datetime.strptime(employee['start_date'], '%Y-%m-%d') if "start_date" in employee else datetime.now()
+            )
+            db.session.add(newEmployee)
+            db.session.commit()
+            return newEmployee
+        except IntegrityError:
+            return AppError({"code":"invalid_data", "description":"Email should be unique"}, 400)
+        except:
+            return AppError({"code":"invalid_data", "description":"Please check the introduced data and try again"}, 400)
+
     
     def getAllByCompany(self, company_id):
         return Employee.query.filter(Employee.role.company_id == company_id)

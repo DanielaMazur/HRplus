@@ -1,6 +1,7 @@
 import json
 from six.moves.urllib.request import urlopen
 from functools import wraps
+import AppError
 
 from flask import request, _request_ctx_stack
 from jose import jwt
@@ -9,33 +10,28 @@ AUTH0_DOMAIN = "dev-i6qklqu4.eu.auth0.com"
 API_AUDIENCE = "http://hrplus"
 ALGORITHMS = ["RS256"]
 
-class AuthError(Exception):
-    def __init__(self, error, status_code):
-        self.error = error
-        self.status_code = status_code
-
 # Format error response and append status code
 def get_token_auth_header():
     """Obtains the Access Token from the Authorization Header
     """
     auth = request.headers.get("Authorization", None)
     if not auth:
-        raise AuthError({"code": "authorization_header_missing",
+        raise AppError({"code": "authorization_header_missing",
                         "description":
                             "Authorization header is expected"}, 401)
 
     parts = auth.split()
 
     if parts[0].lower() != "bearer":
-        raise AuthError({"code": "invalid_header",
+        raise AppError({"code": "invalid_header",
                         "description":
                             "Authorization header must start with"
                             " Bearer"}, 401)
     elif len(parts) == 1:
-        raise AuthError({"code": "invalid_header",
+        raise AppError({"code": "invalid_header",
                         "description": "Token not found"}, 401)
     elif len(parts) > 2:
-        raise AuthError({"code": "invalid_header",
+        raise AppError({"code": "invalid_header",
                         "description":
                             "Authorization header must be"
                             " Bearer token"}, 401)
@@ -72,21 +68,21 @@ def requires_auth(f):
                     issuer="https://"+AUTH0_DOMAIN+"/"
                 )
             except jwt.ExpiredSignatureError:
-                raise AuthError({"code": "token_expired",
+                raise AppError({"code": "token_expired",
                                 "description": "token is expired"}, 401)
             except jwt.JWTClaimsError:
-                raise AuthError({"code": "invalid_claims",
+                raise AppError({"code": "invalid_claims",
                                 "description":
                                     "incorrect claims,"
                                     "please check the audience and issuer"}, 401)
             except Exception:
-                raise AuthError({"code": "invalid_header",
+                raise AppError({"code": "invalid_header",
                                 "description":
                                     "Unable to parse authentication"
                                     " token."}, 401)
 
             _request_ctx_stack.top.current_user = payload
             return f(*args, **kwargs)
-        raise AuthError({"code": "invalid_header",
+        raise AppError({"code": "invalid_header",
                         "description": "Unable to find appropriate key"}, 401)
     return decorated

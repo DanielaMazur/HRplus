@@ -3,7 +3,7 @@ from flask_migrate import Migrate
 from models import db, company, calendar, employee, meeting, replacement_cost, role, training, turnover
 from apis import api, company, employee, role
 from flask_cors import CORS
-from auth.decorators import AuthError
+import AppError
  
 """Initialize the core application."""
 app = Flask(__name__)
@@ -16,10 +16,8 @@ CORS(app)
 api.init_app(app)
 db.init_app(app)
 
-
-@app.errorhandler(AuthError)
-def handle_auth_error(ex):
-    print("handle_auth_error")
+@app.errorhandler(AppError)
+def handle_app_error(ex):
     response = jsonify(ex.error)
     response.status_code = ex.status_code
     return response
