@@ -14,11 +14,11 @@ class EmployeeDAO(object):
         
     def create(self, employee):
         newEmployee = Employee(
-            first_name = employee['first_name'],
-            last_name = employee['last_name'],
-            wage = float(employee['wage']),
+            first_name = employee['first_name'] if "first_name" in employee else "",
+            last_name = employee['last_name'] if "last_name" in employee else "",
+            wage = float(employee['wage']) if "wage" in employee else 0,
             email = employee['email'],
-            work_hours = float(employee['work_hours']),            
+            work_hours = float(employee['work_hours']) if "work_hours" in employee else 0,            
             managed_by_id = employee['managed_by_id'] if "managed_by_id" in employee else None,
             role_id = employee['role_id'],
             replacement_for_id = employee['replacement_for_id'] if "replacement_for_id" in employee else None,

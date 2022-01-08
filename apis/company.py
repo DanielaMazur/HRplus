@@ -1,13 +1,17 @@
 from flask_restx import Namespace, Resource, fields
 from flask_cors import cross_origin
+from models.employee import Employee
 
 from daos.company_dao import CompanyDAO
 from auth.decorators import requires_auth
+from daos.employee_dao import EmployeeDAO
+from daos.role_dao import RoleDAO
 
 api = Namespace('companies', description='Company related operations')
 
 createCompany = api.model('create company', {
     'name': fields.String(required=True),
+    "email": fields.String(required=True)
 })
 
 company = api.model("company", {
@@ -16,6 +20,8 @@ company = api.model("company", {
 })
 
 companyDAO = CompanyDAO()
+employeeDAO = EmployeeDAO()
+roleDAO = RoleDAO()
 
 @api.route('/')
 class CompanyList(Resource):
@@ -25,7 +31,12 @@ class CompanyList(Resource):
     # @cross_origin(headers=["Content-Type", "Authorization"])
     # @requires_auth
     def post(self):
-        return companyDAO.create(api.payload)
+        company = companyDAO.create(api.payload)
+        role = {"name": "HR", "company_id": company.id}
+        role = roleDAO.create(role)
+        employee = {"email": api.payload["email"], "role": role.id }
+        employeeDAO.create(employee)
+        return company
         
     @api.doc('get_companies')
     @api.marshal_with(company, True, code=200)
