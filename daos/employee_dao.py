@@ -3,6 +3,9 @@ from models import db
 from datetime import datetime
 from sqlalchemy.exc import IntegrityError
 from AppError import AppError
+import os
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
 
 class EmployeeDAO(object):
     def get(self, id):
@@ -29,6 +32,12 @@ class EmployeeDAO(object):
             )
             db.session.add(newEmployee)
             db.session.commit()
+            sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
+            message = Mail(
+                from_email=os.environ.get('SENDGRID_SENDER_EMAIL'),
+                to_emails=employee['email'],
+                template_id=os.environ.get('SENDGRID_TEMPLATE_ID'))
+            sg.send(message)
             return newEmployee
         except IntegrityError:
             return AppError({"code":"invalid_data", "description":"Email should be unique"}, 400)

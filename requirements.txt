@@ -30,3 +30,4 @@ flask-cors
 six
 jose
 gunicorn
+sendgrid==6.9.3
