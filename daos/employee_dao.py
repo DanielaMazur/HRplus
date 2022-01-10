@@ -35,14 +35,14 @@ class EmployeeDAO(object):
             sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
             message = Mail(
                 from_email=os.environ.get('SENDGRID_SENDER_EMAIL'),
-                to_emails=employee['email'],
-                template_id=os.environ.get('SENDGRID_TEMPLATE_ID'))
+                to_emails=newEmployee.email)
+            message.template_id = os.environ.get('SENDGRID_TEMPLATE_ID')
             sg.send(message)
             return newEmployee
         except IntegrityError:
-            return AppError({"code":"invalid_data", "description":"Email should be unique"}, 400)
+            raise AppError({"code":"invalid_data", "description":"Email should be unique"}, 400)
         except:
-            return AppError({"code":"invalid_data", "description":"Please check the introduced data and try again"}, 400)
+            raise AppError({"code":"invalid_data", "description":"Please check the introduced data and try again"}, 400)
 
     
     def getAllByCompany(self, company_id):
