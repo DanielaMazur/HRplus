@@ -4,14 +4,17 @@ from models import db, company, calendar, employee, meeting, replacement_cost, t
 from apis import api, company, employee
 from flask_cors import CORS
 from AppError import AppError
+from flask_talisman import Talisman
   
 """Initialize the core application."""
 app = Flask(__name__)
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://pvgomjgwtonjxj:681e2b1a1a91b62852e6d5d67b32c7c0f68f2fa63b8152a01a0c212d25370116@ec2-52-215-22-82.eu-west-1.compute.amazonaws.com:5432/d6s01vq9qjnav'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['PROPAGATE_EXCEPTIONS']=True
 
 CORS(app)
+Talisman(app)
 
 api.init_app(app)
 db.init_app(app)
@@ -20,11 +23,6 @@ db.init_app(app)
 def handle_app_error(ex):
     response = jsonify(ex.error)
     response.status_code = ex.status_code
-    return response
-
-@app.after_request
-def apply_caching(response):
-    response.headers['Strict-Transport-Security'] = 'max-age=31536000; includeSubDomains'
     return response
 
 if __name__ == "__main__":
