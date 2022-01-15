@@ -42,16 +42,16 @@ meetingDAO = MeetingDAO()
 class MeetingList(Resource):
     @api.doc('create_meeting')
     @api.expect(createMeeting)
+    @cross_origin(headers=["Content-Type", "Authorization"])
+    @requires_auth
     @api.marshal_with(meeting, code=201)
-    #@cross_origin(headers=["Content-Type", "Authorization"])
-    #@requires_auth
     def post(self):
         return meetingDAO.create(api.payload)
 
     @api.doc('get_meetings')
+    @cross_origin(headers=["Content-Type", "Authorization"])
+    @requires_auth
     @api.marshal_with(meeting, True)
-    #@cross_origin(headers=["Content-Type", "Authorization"])
-    #@requires_auth
     def get(self):
         return meetingDAO.getAll()
 
@@ -59,14 +59,14 @@ class MeetingList(Resource):
 class Meeting(Resource):
     @api.doc('update_meeting')
     @api.expect(updateMeeting)
+    @cross_origin(headers=["Content-Type", "Authorization"])
+    @requires_auth
     @api.marshal_with(meeting, code=200)
-    #@cross_origin(headers=["Content-Type", "Authorization"])
-    #@requires_auth
     def put(self, id):
         return meetingDAO.update(id, api.payload)
 
     @api.doc('delete_meeting')
-    #@cross_origin(headers=["Content-Type", "Authorization"])
-    #@requires_auth
+    @cross_origin(headers=["Content-Type", "Authorization"])
+    @requires_auth
     def delete(self, id):
         return meetingDAO.delete(id)

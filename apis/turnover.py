@@ -33,16 +33,16 @@ turnoverDAO = TurnoverDAO()
 class TurnoverList(Resource):
     @api.doc('create_turnover')
     @api.expect(createTurnover)
+    @cross_origin(headers=["Content-Type", "Authorization"])
+    @requires_auth
     @api.marshal_with(turnover, code=201)
-    #@cross_origin(headers=["Content-Type", "Authorization"])
-    #@requires_auth
     def post(self):
         return turnoverDAO.create(api.payload)
 
     @api.doc('get_turnovers')
+    @cross_origin(headers=["Content-Type", "Authorization"])
+    @requires_auth
     @api.marshal_with(turnover, True)
-    #@cross_origin(headers=["Content-Type", "Authorization"])
-    #@requires_auth
     def get(self):
         return turnoverDAO.getAll()
 
@@ -50,14 +50,14 @@ class TurnoverList(Resource):
 class Turnover(Resource):
     @api.doc('update_turnover')
     @api.expect(updateTurnover)
+    @cross_origin(headers=["Content-Type", "Authorization"])
+    @requires_auth
     @api.marshal_with(turnover, code=200)
-    #@cross_origin(headers=["Content-Type", "Authorization"])
-    #@requires_auth
     def put(self, id):
         return turnoverDAO.update(id, api.payload)
 
     @api.doc('delete_turnover')
-    #@cross_origin(headers=["Content-Type", "Authorization"])
-    #@requires_auth
+    @cross_origin(headers=["Content-Type", "Authorization"])
+    @requires_auth
     def delete(self, id):
         return turnoverDAO.delete(id)

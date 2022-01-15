@@ -63,31 +63,30 @@ replacement_costDAO = ReplacementCostDAO()
 class ReplacementCostList(Resource):
     @api.doc('create_replacement_cost')
     @api.expect(createReplacementCost)
+    @cross_origin(headers=["Content-Type", "Authorization"])
+    @requires_auth
     @api.marshal_with(replacement_cost, code=201)
-    #@cross_origin(headers=["Content-Type", "Authorization"])
-    #@requires_auth
     def post(self):
         return replacement_costDAO.create(api.payload)
 
     @api.doc('get_replacement_costs')
+    @cross_origin(headers=["Content-Type", "Authorization"])
+    @requires_auth
     @api.marshal_with(replacement_cost, True)
-    #@cross_origin(headers=["Content-Type", "Authorization"])
-    #@requires_auth
     def get(self):
         return replacement_costDAO.getAll()
 
 @api.route('/<string:id>')
 class ReplacementCost(Resource):
     @api.doc('update_replacement_cost')
+    @cross_origin(headers=["Content-Type", "Authorization"])
+    @requires_auth
     @api.expect(updateReplacementCost)
-    @api.marshal_with(replacement_cost, code=200)
-    #@cross_origin(headers=["Content-Type", "Authorization"])
-    #@requires_auth
     def put(self, id):
         return replacement_costDAO.update(id, api.payload)
 
     @api.doc('delete_replacement_cost')
-    #@cross_origin(headers=["Content-Type", "Authorization"])
-    #@requires_auth
+    @cross_origin(headers=["Content-Type", "Authorization"])
+    @requires_auth
     def delete(self, id):
         return replacement_costDAO.delete(id)

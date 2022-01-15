@@ -33,16 +33,16 @@ calendarDAO = CalendarDAO()
 class CalendarList(Resource):
     @api.doc('create_calendar')
     @api.expect(createCalendar)
+    @cross_origin(headers=["Content-Type", "Authorization"])
+    @requires_auth
     @api.marshal_with(calendar, code=201)
-    #@cross_origin(headers=["Content-Type", "Authorization"])
-    #@requires_auth
     def post(self):
         return calendarDAO.create(api.payload)
 
     @api.doc('get_calendars')
+    @cross_origin(headers=["Content-Type", "Authorization"])
+    @requires_auth
     @api.marshal_with(calendar, True)
-    #@cross_origin(headers=["Content-Type", "Authorization"])
-    #@requires_auth
     def get(self):
         return calendarDAO.getAll()
 
@@ -50,14 +50,14 @@ class CalendarList(Resource):
 class Calendar(Resource):
     @api.doc('update_calendar')
     @api.expect(updateCalendar)
+    @cross_origin(headers=["Content-Type", "Authorization"])
+    @requires_auth
     @api.marshal_with(calendar, code=200)
-    #@cross_origin(headers=["Content-Type", "Authorization"])
-    #@requires_auth
     def put(self, id):
         return calendarDAO.update(id, api.payload)
 
     @api.doc('delete_calendar')
-    #@cross_origin(headers=["Content-Type", "Authorization"])
-    #@requires_auth
+    @cross_origin(headers=["Content-Type", "Authorization"])
+    @requires_auth
     def delete(self, id):
         return calendarDAO.delete(id)
