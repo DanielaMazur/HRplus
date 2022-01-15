@@ -56,8 +56,8 @@ class EmployeeList(Resource):
     @api.doc('create_employee')
     @api.expect(createEmployee)
     @api.marshal_with(employee, code=201)
-    # @cross_origin(headers=["Content-Type", "Authorization"])
-    # @requires_auth
+    @cross_origin(headers=["Content-Type", "Authorization"])
+    @requires_auth
     def post(self):
         return employeeDAO.create(api.payload)
 
@@ -98,7 +98,7 @@ class Employee(Resource):
     @api.doc('get_employee')
     @api.response(404, 'Employee not found')
     @api.marshal_with(employee)
-    # @cross_origin(headers=["Content-Type", "Authorization"])
-    # @requires_auth
+    @cross_origin(headers=["Content-Type", "Authorization"])
+    @requires_auth
     def get(self, email):
         return employeeDAO.getByEmail(email)
