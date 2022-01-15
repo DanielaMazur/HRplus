@@ -50,7 +50,7 @@ def requires_auth(f):
         unverified_header = jwt.get_unverified_header(token)
         rsa_key = {}
         for key in jwks["keys"]:
-            if key["kid"] == unverified_header["kid"]:
+            if "kid" in unverified_header and key["kid"] == unverified_header["kid"]:
                 rsa_key = {
                     "kty": key["kty"],
                     "kid": key["kid"],
