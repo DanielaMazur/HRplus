@@ -46,6 +46,8 @@ class EmployeeDAO(object):
             )
             db.session.add(newEmployee)
             db.session.commit()
+            if newEmployee.role == "admin":
+                return newEmployee
             sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
             message = Mail(
                 from_email=os.environ.get('SENDGRID_SENDER_EMAIL'),
