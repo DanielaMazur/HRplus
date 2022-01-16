@@ -31,7 +31,6 @@ class EmployeeDAO(object):
         return Employee.query.filter(Employee.company_id == company_id).all()
         
     def create(self, employee):
-        currentEmployee = self.getCurrentEmployee()
         try:
             newEmployee = Employee(
                 first_name = employee['first_name'] if "first_name" in employee else "",
@@ -43,7 +42,7 @@ class EmployeeDAO(object):
                 role = employee['role'],
                 replacement_for_id = employee['replacement_for_id'] if "replacement_for_id" in employee else None,
                 start_date = datetime.strptime(employee['start_date'], '%Y-%m-%d') if "start_date" in employee else datetime.now(),
-                company_id = currentEmployee.company_id
+                company_id = employee['company_id'] if employee['role'] == 'admin' and 'company_id' in employee else self.getCurrentEmployee().company_id
             )
             db.session.add(newEmployee)
             db.session.commit()
