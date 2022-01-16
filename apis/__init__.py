@@ -6,6 +6,7 @@ from .meeting import api as meetingNamespace
 from .replacement_cost import api as replacementCostNamespace
 from .training import api as trainingNamespace
 from .turnover import api as turnoverNamespace
+from .csrf_token import api as csrfTokenNamespace
 
 authorizations = {
     'Bearer Auth': {
@@ -30,3 +31,4 @@ api.add_namespace(meetingNamespace)
 api.add_namespace(replacementCostNamespace)
 api.add_namespace(trainingNamespace)
 api.add_namespace(turnoverNamespace)
+api.add_namespace(csrfTokenNamespace)
