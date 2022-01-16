@@ -45,14 +45,14 @@ trainingDAO = TrainingDAO()
 class TrainingList(Resource):
     @api.doc('create_training')
     @api.expect(createTraining)
-    @cross_origin(headers=["Content-Type", "Authorization"])
+     #@cross_origin(headers=["Content-Type", "Authorization"])
     @requires_auth
     @api.marshal_with(training, code=201)
     def post(self):
         return trainingDAO.create(api.payload)
 
     @api.doc('get_trainings')
-    @cross_origin(headers=["Content-Type", "Authorization"])
+     #@cross_origin(headers=["Content-Type", "Authorization"])
     @requires_auth
     @api.marshal_with(training, True)
     def get(self):
@@ -62,14 +62,14 @@ class TrainingList(Resource):
 class Training(Resource):
     @api.doc('update_training')
     @api.expect(updateTraining)
-    @cross_origin(headers=["Content-Type", "Authorization"])
+     #@cross_origin(headers=["Content-Type", "Authorization"])
     @requires_auth
     @api.marshal_with(training, code=200)
     def put(self, id):
         return trainingDAO.update(id, api.payload)
 
     @api.doc('delete_training')
-    @cross_origin(headers=["Content-Type", "Authorization"])
+     #@cross_origin(headers=["Content-Type", "Authorization"])
     @requires_auth
     def delete(self, id):
         return trainingDAO.delete(id)

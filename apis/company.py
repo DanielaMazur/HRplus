@@ -33,7 +33,7 @@ class CompanyList(Resource):
         return company
         
     @api.doc('get_companies')
-    # @cross_origin(headers=["Content-Type", "Authorization"])
+    #@cross_origin(headers=["Content-Type", "Authorization"])
     @requires_auth
     @api.marshal_with(company, True, code=200)
     def get(self):
@@ -44,14 +44,14 @@ class CompanyList(Resource):
 class Company(Resource):
     @api.doc('update_company')
     @api.expect(createCompany)
-    @cross_origin(headers=["Content-Type", "Authorization"])
+     #@cross_origin(headers=["Content-Type", "Authorization"])
     @requires_auth
     @api.marshal_with(company, code=200)
     def put(self, id):
         return companyDAO.update(id, api.payload)
 
     @api.doc('delete_company')
-    @cross_origin(headers=["Content-Type", "Authorization"])
+     #@cross_origin(headers=["Content-Type", "Authorization"])
     @requires_auth
     def delete(self, id):
         return companyDAO.delete(id)

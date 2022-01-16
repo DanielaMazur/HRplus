@@ -22,7 +22,7 @@ statistics = api.model("statistics", {
 #     @api.doc('get_statistics_for_a_given_perioud')
 #     @api.expect(getStatistics)
 #     @api.marshal_with(statistics, code=201)
-#     @cross_origin(headers=["Content-Type", "Authorization"])
+#      #@cross_origin(headers=["Content-Type", "Authorization"])
 #     @requires_auth
 #     def get(self):
 #         return

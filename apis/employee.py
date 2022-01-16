@@ -55,7 +55,7 @@ employeeDAO = EmployeeDAO()
 class EmployeeList(Resource):
     @api.doc('create_employee')
     @api.expect(createEmployee)
-    @cross_origin(headers=["Content-Type", "Authorization"])
+     #@cross_origin(headers=["Content-Type", "Authorization"])
     @requires_auth
     @api.marshal_with(employee, code=201)
     def post(self):
@@ -63,7 +63,7 @@ class EmployeeList(Resource):
 
     @api.doc('get_employees')
     @api.marshal_with(employee, True)
-    # @cross_origin(headers=["Content-Type", "Authorization"])
+    #  #@cross_origin(headers=["Content-Type", "Authorization"])
     @requires_auth
     def get(self):
         return employeeDAO.getAll()
@@ -72,7 +72,7 @@ class EmployeeList(Resource):
 class Employee(Resource):
     @api.doc('get_employee')
     @api.response(404, 'Employee not found')
-    @cross_origin(headers=["Content-Type", "Authorization"])
+     #@cross_origin(headers=["Content-Type", "Authorization"])
     @requires_auth
     @api.marshal_with(employee)
     def get(self, id):
@@ -81,14 +81,14 @@ class Employee(Resource):
     @api.doc('update_employee')
     @api.response(404, 'Employee not found')
     @api.expect(editEmployee)
-    @cross_origin(headers=["Content-Type", "Authorization"])
+     #@cross_origin(headers=["Content-Type", "Authorization"])
     @requires_auth
     @api.marshal_with(employee)
     def put(self, id):
         return employeeDAO.update(id, api.payload)
 
     @api.doc('delete_employee')
-    @cross_origin(headers=["Content-Type", "Authorization"])
+    #@cross_origin(headers=["Content-Type", "Authorization"])
     @requires_auth
     def delete(self, id):
         return employeeDAO.delete(id)
@@ -97,7 +97,7 @@ class Employee(Resource):
 class EmployeeByEmail(Resource):
     @api.doc('get_employee_by_email')
     @api.response(404, 'Employee not found')
-    @cross_origin(headers=["Content-Type", "Authorization"])
+    #@cross_origin(headers=["Content-Type", "Authorization"])
     @requires_auth
     @api.marshal_with(employee)
     def get(self, email):
