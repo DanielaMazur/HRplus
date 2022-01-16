@@ -14,7 +14,12 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['PROPAGATE_EXCEPTIONS']=True
 
 CORS(app)
-Talisman(app)
+Talisman(app, content_security_policy={
+        'style-src': [
+            '\'unsafe-inline\'',
+            '\'self\'',
+        ]
+    })
 
 api.init_app(app)
 db.init_app(app)
