@@ -33,7 +33,7 @@ class CompanyList(Resource):
         return company
         
     @api.doc('get_companies')
-    @cross_origin(headers=["Content-Type", "Authorization"])
+    # @cross_origin(headers=["Content-Type", "Authorization"])
     @requires_auth
     @api.marshal_with(company, True, code=200)
     def get(self):

@@ -6,6 +6,7 @@ from AppError import AppError
 import os
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
+from flask import _request_ctx_stack
 
 class EmployeeDAO(object):
     def get(self, id):
@@ -16,8 +17,21 @@ class EmployeeDAO(object):
 
     def getAll(self):
         return Employee.query.all()
+
+    def getCurrentEmployee(self):
+        user_profile_id = _request_ctx_stack.top.current_user['sub']
+        return self.getByProfileId(user_profile_id)
+    
+    def getByProfileId(self, profile_id):
+        return Employee.query.filter(Employee.profile_id == profile_id).first()
+    
+    def getCompanyEmployees(self):
+        employee = self.getCurrentEmployee()
+        company_id = employee.company_id
+        return Employee.query.filter(Employee.company_id == company_id).all()
         
     def create(self, employee):
+        currentEmployee = self.getCurrentEmployee()
         try:
             newEmployee = Employee(
                 first_name = employee['first_name'] if "first_name" in employee else "",
@@ -28,7 +42,8 @@ class EmployeeDAO(object):
                 managed_by_id = employee['managed_by_id'] if "managed_by_id" in employee else None,
                 role = employee['role'],
                 replacement_for_id = employee['replacement_for_id'] if "replacement_for_id" in employee else None,
-                start_date = datetime.strptime(employee['start_date'], '%Y-%m-%d') if "start_date" in employee else datetime.now()
+                start_date = datetime.strptime(employee['start_date'], '%Y-%m-%d') if "start_date" in employee else datetime.now(),
+                company_id = currentEmployee.company_id
             )
             db.session.add(newEmployee)
             db.session.commit()

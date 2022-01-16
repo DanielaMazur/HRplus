@@ -1,7 +1,6 @@
 from flask_restx import Namespace, Resource, fields
 from flask_cors import cross_origin
-from flask import jsonify
- 
+
 from daos.employee_dao import EmployeeDAO
 from models.employee import Employee as EmployeeModel
 from auth.decorators import requires_auth
@@ -45,7 +44,8 @@ employee = api.model('employee', {
     'role': fields.String(required=True),
     'replacement_for_id': fields.String(required=False),
     'start_date': fields.Date(required=True),
-    'profile_id':fields.String()
+    'profile_id': fields.String(),
+    'company_id': fields.String()
 })
 
 employeeDAO = EmployeeDAO()
@@ -62,9 +62,9 @@ class EmployeeList(Resource):
         return employeeDAO.create(api.payload)
 
     @api.doc('get_employees')
-    @cross_origin(headers=["Content-Type", "Authorization"])
-    @requires_auth
     @api.marshal_with(employee, True)
+    # @cross_origin(headers=["Content-Type", "Authorization"])
+    @requires_auth
     def get(self):
         return employeeDAO.getAll()
     
@@ -94,11 +94,20 @@ class Employee(Resource):
         return employeeDAO.delete(id)
 
 @api.route('/by-email/<string:email>')
-class Employee(Resource):
-    @api.doc('get_employee')
+class EmployeeByEmail(Resource):
+    @api.doc('get_employee_by_email')
     @api.response(404, 'Employee not found')
     @cross_origin(headers=["Content-Type", "Authorization"])
     @requires_auth
     @api.marshal_with(employee)
     def get(self, email):
         return employeeDAO.getByEmail(email)
+
+@api.route('/by-company')
+class EmployeesByCompany(Resource):
+    @api.doc('get_company_employees')
+    #@cross_origin(headers=["Content-Type", "Authorization"])
+    @api.marshal_with(employee, True)
+    @requires_auth
+    def get(self):
+        return employeeDAO.getCompanyEmployees()
