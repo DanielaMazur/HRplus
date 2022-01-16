@@ -5,8 +5,7 @@ from apis import api, company, employee
 from flask_cors import CORS
 from AppError import AppError
 from flask_talisman import Talisman
-from shadowd.flask_connector import InputFlask, OutputFlask, Connector
-
+ 
 """Initialize the core application."""
 app = Flask(__name__)
 
@@ -31,12 +30,7 @@ def handle_app_error(ex):
     response.status_code = ex.status_code
     return response
 
-@app.before_request
-def before_req():
-    input = InputFlask(request)
-    output = OutputFlask()
-
-    Connector().start(input, output)
+ 
 
 if __name__ == "__main__":
     app.run()

@@ -32,4 +32,3 @@ jose
 gunicorn
 sendgrid==6.9.3
 flask-talisman
-shadowd
