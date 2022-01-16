@@ -28,7 +28,7 @@ class CompanyList(Resource):
     @api.marshal_with(company, code=201)
     def post(self):
         company = companyDAO.create(api.payload)
-        employee = {"email": api.payload["email"], "role": "admin" }
+        employee = {"email": api.payload["email"], "role": "admin", "company_id": company.id }
         employeeDAO.create(employee)
         return company
         
