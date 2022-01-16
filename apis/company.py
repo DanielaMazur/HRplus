@@ -55,3 +55,9 @@ class Company(Resource):
     @requires_auth
     def delete(self, id):
         return companyDAO.delete(id)
+        
+    @api.doc("get_by_id")
+    @requires_auth
+    @api.marshal_with(company, code=200)
+    def get(self, id):
+        return companyDAO.get(id)
